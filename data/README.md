@@ -43,10 +43,10 @@ Pilih dataset Indonesia yang legal digunakan, dapat didokumentasikan sumbernya, 
 ## Cara Memperoleh Data
 
 1. Login ke Kaggle dan buka halaman [Indonesia News](https://www.kaggle.com/datasets/azizainunnajib/indonesia-news).
-2. Klik **Download**, lalu ekstrak arsip ke folder `data/raw/indonesia-news/`.
+2. Klik **Download**, lalu ekstrak arsip ke folder `data/raw/archive/`.
 3. Pertahankan nama dan isi file mentah tanpa perubahan.
-4. Catat checksum setiap file setelah pengunduhan, misalnya di PowerShell dengan `Get-FileHash data/raw/indonesia-news/*.csv -Algorithm SHA256`.
-5. Atur variabel `DATA_PATH` pada `notebooks/01_data_profiling.ipynb` agar menunjuk ke file yang dianalisis, misalnya `data/raw/indonesia-news/cnn.csv`.
+4. Catat checksum setiap file setelah pengunduhan, misalnya di PowerShell dengan `Get-FileHash data/raw/archive/*.csv -Algorithm SHA256`.
+5. Notebook `notebooks/01_data_profiling.ipynb` membaca ketiga file CSV dari folder `data/raw/archive/`.
 
 ## Aturan Penyimpanan
 
