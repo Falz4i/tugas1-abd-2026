@@ -8,7 +8,7 @@
 | Sumber | [Kaggle — azizainunnajib/indonesia-news](https://www.kaggle.com/datasets/azizainunnajib/indonesia-news) |
 | Lisensi/ketentuan pakai | [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/): boleh digunakan dan diadaptasi untuk tujuan nonkomersial dengan atribusi kepada pembuat dataset. |
 | Ukuran | Sekitar 2,16 GB (3 file CSV), sehingga memenuhi syarat minimal 500 MB. |
-| Periode data | Dataset memuat arsip berita hingga 31 Mei 2020. File `tempo010619310520.csv` menunjukkan periode 1 Juni 2019–31 Mei 2020; rentang tanggal penuh seluruh file akan diverifikasi pada tahap profiling. |
+| Periode data | Hasil profiling: 4 Agustus 2014–31 Mei 2020 (timestamp epoch ditafsirkan sebagai UTC). Nama file tambahan Tempo mengacu Juni 2019–Mei 2020; timestampnya kurang presisi. |
 | Unit analisis | Satu baris mewakili satu artikel berita dari CNN Indonesia atau Tempo. |
 
 ## Berkas Dataset
@@ -22,6 +22,22 @@ Metadata Kaggle mencantumkan tiga file berikut:
 | `tempo010619310520.csv` | 247,96 MB | Artikel Tempo untuk periode 1 Juni 2019–31 Mei 2020. |
 
 Ukuran dan jumlah baris akan diperiksa kembali setelah file diunduh karena ukuran yang ditampilkan Kaggle dapat berbeda antara arsip unduhan dan file hasil ekstraksi.
+
+## Hasil verifikasi revisi 26 Oktober 2026
+
+Pembacaan CSV ketat menghasilkan **988.814 baris**. Cleaning terbaru menghasilkan **848.028 baris**, menggantikan hasil lama 964.553 baris yang memakai kunci timestamp.
+
+| Tahap pengeluaran baris (berurutan) | Jumlah |
+|---|---:|
+| Judul/isi wajib kosong | 14.313 |
+| Tanggal tidak valid setelah pemeriksaan teks | 4 |
+| Isi kurang dari 100 karakter setelah pemeriksaan tanggal | 7.384 |
+| Duplikat sumber + judul + hash isi | 119.085 |
+| Total dikeluarkan | 140.786 |
+
+Audit menemukan 117.022 kelompok artikel Tempo lintas file. Prioritas salinan diberikan kepada `tempo.csv`; artikel dengan revisi isi tetap dipertahankan. Pencilan panjang isi berdasarkan IQR per media ditandai, tanpa clipping teks. Ambang 100 karakter adalah asumsi operasional yang perlu dievaluasi, bukan definisi universal artikel valid.
+
+Notebook 02 menyimpan audit CSV, metadata versi, dan `indonesia_news_clean.parquet` di `data/processed/`. Notebook 03 memeriksa metadata tersebut sebelum membuat analisis ulang. Berkas antara `_news_*.parquet` dapat diregenerasi oleh notebook 02; tidak termasuk bahan commit.
 
 ## Rencana Analisis
 

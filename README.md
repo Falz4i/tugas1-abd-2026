@@ -1,5 +1,30 @@
 # Tugas 1: Eksplorasi dan Analisis Dataset Besar Indonesia
 
+## Implementasi Indonesia News — revisi template 26 Oktober 2026
+
+**Mahasiswa:** Naufal Zainul Zaki — **NIM:** 202310370311217 — **GitHub:** Falz4i. Identitas juga tersedia pada `identitas.md` dan header notebook.
+
+Notebook 02 dan 03 disesuaikan dengan [template cleaning dosen](https://github.com/UMM-GURU/tugas1-abd-2026/blob/main/notebooks/02_data_cleaning.ipynb) dan [template EDA dosen](https://github.com/UMM-GURU/tugas1-abd-2026/blob/main/notebooks/03_eda_and_insights.ipynb).
+
+| Ketentuan | Implementasi |
+|---|---|
+| Profiling sebelum dan sesudah cleaning | DuckDB `SUMMARIZE` pada notebook 02 |
+| Missing values | Null, teks kosong, persentase, dan audit per tahap |
+| Outlier | IQR panjang isi per media; pencilan ditandai dan dipertahankan |
+| Deduplikasi | Sumber + judul ternormalisasi + SHA-256 isi; audit overlap file Tempo |
+| Validasi | Assertion teks, tanggal, panjang, flag IQR, dan keunikan kunci sebelum mengganti Parquet |
+| Temporal/windowing | MA3 dan perubahan bulanan menggunakan `OVER` dan `LAG` |
+| Visualisasi | Sembilan grafik Plotly termasuk box plot dan korelasi multidimensi |
+| Insight | Lima interpretasi utama dan rekomendasi praktis, selain ringkasan angka |
+
+Jalankan notebook `01_data_profiling.ipynb`, `02_data_cleaning.ipynb`, lalu `03_eda_and_insights.ipynb`. Revisi cleaning menghasilkan metadata versi yang diperiksa notebook EDA agar hasil lama tidak tercampur. Semua output analisis harus dihitung ulang setelah aturan cleaning berubah. Polars 1.44.2 dan DuckDB 1.5.5 digunakan untuk verifikasi revisi ini; batas minimum dependency telah disesuaikan.
+
+Notebook 02 membuat berkas antara berawalan `_news_` dan audit CSV/JSON di `data/processed/`; notebook 03 membuat HTML offline di `output/figures/`. Berkas tersebut dapat diregenerasi dan dikecualikan dari Git. Bukti eksekusi, grafik, dan interpretasi tersimpan di notebook yang di-commit.
+
+**Batas analisis:** periode 2014 dan 2020 parsial; timestamp ditafsirkan sebagai epoch UTC; cakupan arsip media belum tentu lengkap. Kunci dedup menghapus salinan teks persis, tetapi tidak menyatukan revisi isi atau semua artikel yang serupa. Batas 100 karakter adalah asumsi operasional, dan pencilan IQR tidak otomatis dianggap salah. Korelasi bersifat deskriptif, bukan bukti kausalitas.
+
+**Hasil cleaning revisi:** 988.814 baris mentah menjadi 848.028 baris bersih. Audit menemukan 117.022 kelompok artikel Tempo lintas file. Angka dan grafik versi lama (964.553 baris) digantikan oleh eksekusi revisi ini; rincian tersedia pada `data/README.md` dan tabel output notebook 02.
+
 Template untuk Tugas 1 mata kuliah Analisis Big Data. Setelah repository GitHub Classroom dibuat, ubah nama repository menjadi `tugas1-[username_github]`.
 
 ## Milestone
@@ -227,10 +252,8 @@ Buka JupyterLab pada `http://localhost:8888/lab`. Konfigurasi Dockerfile menjala
 
 ## AI Disclosure Statement
 
-Isi bagian ini sebelum pengumpulan akhir.
-
-> Alat AI yang digunakan: [nama alat].
+> Alat AI yang digunakan: OpenAI Codex.
 >
-> Bagian yang dibantu: [contoh: penjelasan error Polars atau review dokumentasi].
+> Bagian yang dibantu: penyusunan dan revisi notebook profiling, cleaning Polars, audit DuckDB, visualisasi Plotly, penjelasan hasil, serta perbandingan dengan template dosen.
 >
-> Verifikasi yang dilakukan: [contoh: menjalankan ulang kode, memeriksa dokumentasi resmi, dan memahami setiap cell].
+> Verifikasi teknis dilakukan melalui eksekusi notebook pada dataset lengkap dan assertion kualitas data. Mahasiswa masih perlu mempelajari tiap sel, meninjau asumsi cleaning dan contoh pencilan, serta memastikan dapat menjelaskan hasil dengan bahasa sendiri sebelum pengumpulan.
